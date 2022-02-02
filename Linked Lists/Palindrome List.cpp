@@ -19,24 +19,26 @@ ListNode* ReverseList(ListNode* A){
     return prev;
 }
 
-ListNode* CopyOfA(ListNode* A){
-    ListNode* B = new ListNode(A->val);
-    ListNode* ans = B;
+ListNode* SecondHalf(ListNode* A){
+    ListNode* slowPointer, *fastPointer;
+    slowPointer = A;
+    fastPointer = A->next;
 
-    A = A->next;
-    
-    while(A){
-        ListNode* temp = new ListNode(A->val);
-        B->next = temp;
-
-        B = B->next;
-        A = A->next;
+    while(fastPointer){
+        fastPointer = fastPointer->next;
+        if(fastPointer){
+            slowPointer = slowPointer->next;
+            fastPointer = fastPointer->next;
+        }
     }
-    return ans;
+    ListNode* temp = slowPointer->next;
+    slowPointer->next = NULL;
+
+    return temp;
 }
 
 int Solution::lPalin(ListNode* A) {
-    ListNode *B = CopyOfA(A);
+    ListNode *B = SecondHalf(A);
     ListNode *reversedList = ReverseList(B);
     int flag = 1;
 
